@@ -6,15 +6,11 @@ export class Step01HelloLambdaStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // The code that defines your stack goes here
-    const hello = new lambda.Function(this, "HelloHandler", {
-      runtime: lambda.Runtime.NODEJS_10_X,
-      code: lambda.Code.fromAsset("lambda"),
-      handler: "hello.handler",
-    });
-
-    new apigw.LambdaRestApi(this, "Endpoint", {
-      handler: hello,
+    const dynamoDBTable = new ddb.Table(this, 'Table', {
+      partitionKey: {
+        name: 'id',
+        type: ddb.AttributeType.STRING,
+      },
     });
   }
 }
